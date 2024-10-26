@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   UnauthorizedException,
@@ -29,7 +28,7 @@ export class AuthService {
 
       userData.password = await this.hashPassword(userData.password);
 
-      await this.usersService.create(userData);
+      await this.usersService.create({ ...userData, role: 'user' });
 
       return {
         message: 'User Created Successfully',
