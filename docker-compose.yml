@@ -1,13 +1,13 @@
 services:
-  backend:
-    build:
-      context: ./backend/
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongo
-      - redis
+  # backend:
+  #   build:
+  #     context: ./backend/
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - mongo
+  #     - redis
 
   mongo:
     image: mongo:5.0
