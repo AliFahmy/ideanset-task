@@ -7,6 +7,7 @@ import { JWTAuthGuard } from './auth/guards/jwt-auth.guard';
 import { OrganizationModule } from './organizations/organization.module';
 import { CacheModule, CacheModuleAsyncOptions } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
+import { DATABASE_URI, REDIS_HOST, REDIS_PORT } from './constants/constants';
 
 @Module({
   imports: [
@@ -15,8 +16,8 @@ import { redisStore } from 'cache-manager-redis-store';
       useFactory: async () => {
         const store = await redisStore({
           socket: {
-            host: 'localhost',
-            port: 6379,
+            host: REDIS_HOST,
+            port: REDIS_PORT,
           },
         });
         return {
@@ -27,7 +28,7 @@ import { redisStore } from 'cache-manager-redis-store';
     AuthModule,
     UsersModule,
     OrganizationModule,
-    MongooseModule.forRoot('mongodb://localhost/ideanset'),
+    MongooseModule.forRoot(DATABASE_URI),
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: JWTAuthGuard }],

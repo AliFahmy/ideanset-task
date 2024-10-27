@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { signupSchema } from './validation/signup.validation';
 import { signinSchema } from './validation/sigin.validation';
-import { ZodValidationPipe } from 'pipes/zod.validation.pipe';
+import { ZodValidationPipe } from '../../pipes/zod.validation.pipe';
 import { SignupDTO } from './dto/signup.dto';
 import { SigninDTO } from './dto/signin.dto';
 import { AuthService } from './auth.service';

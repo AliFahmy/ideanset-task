@@ -13,7 +13,7 @@ import {
 import { Model } from 'mongoose';
 import { CreateOrganizationDTO } from './dto/create-organization.dto';
 import { UpdateOrganizationDTO } from './dto/update-organization.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class OrganizationService {

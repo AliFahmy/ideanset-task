@@ -10,14 +10,14 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { OrganizationService } from './organization.service';
 import { CreateOrganizationDTO } from './dto/create-organization.dto';
-import { ZodValidationPipe } from 'pipes/zod.validation.pipe';
+import { ZodValidationPipe } from '../../pipes/zod.validation.pipe';
 import { createOrganizationSchema } from './validation/create-organization.validation';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { Roles } from '../common/decorators/roles.decorator';
 import { UpdateOrganizationDTO } from './dto/update-organization.dto';
-import { ValidateObjectIdPipe } from 'pipes/ObjectId.validation.pipe';
+import { ValidateObjectIdPipe } from '../../pipes/ObjectId.validation.pipe';
 import { InviteUserDTO } from './dto/invite-user.dto';
 import { OrganizationMemberGuard } from './guards/organization-member.guard';
 
