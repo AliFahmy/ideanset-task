@@ -50,7 +50,6 @@ export class OrganizationService {
         .find()
         .populate('organization_members', 'name email role')
         .exec();
-      console.log(organization);
       return organization;
     } catch (error) {
       throw error;
