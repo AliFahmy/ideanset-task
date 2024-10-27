@@ -4,9 +4,9 @@ export const jwtSecret =
 
 export const refreshSecret =
   process.env.REFRESH_SECRET ||
-  'DO NOT USE THIS VALUE. INSTEAD, CREATE A Refresh SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.';
+  'DO NOT USE THIS VALUE. INSTEAD, CREATE A VERY COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.';
 
-export const saltRounds = process.env.JWT_SALT || 10;
+export const saltRounds = parseInt(process.env.JWT_SALT) || 10;
 
 export const DATABASE_URI =
   process.env.DATABASE_URI || 'mongodb://localhost:27017/test_database';
