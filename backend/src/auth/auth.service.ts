@@ -22,7 +22,7 @@ export class AuthService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  async signup(userData: SignupDTO) {
+  async signup(userData: SignupDTO,isAdmin:boolean = false) {
     try {
       const existingUser = await this.usersService.getUserByEmail(
         userData.email,
@@ -33,7 +33,8 @@ export class AuthService {
 
       userData.password = await this.hashPassword(userData.password);
 
-      await this.usersService.create({ ...userData, role: 'user' });
+      const role = isAdmin ? 'admin':'user'
+      await this.usersService.create({ ...userData, role});
 
       return {
         message: 'User Created Successfully',
@@ -43,6 +44,10 @@ export class AuthService {
     }
   }
 
+
+
+
+  
   async signin(userData: SigninDTO) {
     try {
       const user = await this.usersService.getUserByEmail(userData.email);

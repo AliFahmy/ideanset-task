@@ -32,6 +32,18 @@ export class AuthContorller {
       throw error;
     }
   }
+
+  @Public()
+  @Post('create-admin')
+  @HttpCode(201)
+  @UsePipes(new ZodValidationPipe(signupSchema))
+  createAdmin(@Body() userData: SignupDTO) {
+    try {
+      return this.authService.signup(userData,true);
+    } catch (error) {
+      throw error;
+    }
+  }
   @Public()
   @Post('signin')
   @HttpCode(200)

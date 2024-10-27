@@ -8,6 +8,7 @@ import { OrganizationModule } from './organizations/organization.module';
 import { CacheModule, CacheModuleAsyncOptions } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
 import { DATABASE_URI, REDIS_HOST, REDIS_PORT } from './constants/constants';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { DATABASE_URI, REDIS_HOST, REDIS_PORT } from './constants/constants';
     AuthModule,
     UsersModule,
     OrganizationModule,
+    HealthModule,
     MongooseModule.forRoot(DATABASE_URI),
   ],
   controllers: [],
