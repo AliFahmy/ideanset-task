@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -10,11 +11,15 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { jwtSecret, refreshSecret, saltRounds } from './constants/constants';
 
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private jwtService: JwtService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async signup(userData: SignupDTO) {
@@ -58,13 +63,21 @@ export class AuthService {
         email: user.email,
         sub: user._id,
       };
-
+      const tokens = await this.generateTokens(payload);
       return {
         message: 'User signedin successfully',
-        ...this.generateTokens(payload),
+        ...tokens,
       };
     } catch (error) {
       throw error;
+    }
+  }
+
+  async revokeRefreshToken(refreshToken: string) {
+    try {
+      await this.cacheManager.del(`refresh_token:${refreshToken}`);
+    } catch (error) {
+      throw new error();
     }
   }
   refreshTokens(payload: any) {
@@ -78,7 +91,7 @@ export class AuthService {
     }
   }
 
-  private generateTokens(payload: any) {
+  private async generateTokens(payload: any) {
     const accessToken = this.jwtService.sign(payload, {
       secret: jwtSecret,
       expiresIn: '1d',
@@ -87,6 +100,11 @@ export class AuthService {
       secret: refreshSecret,
       expiresIn: '7d',
     });
+    await this.cacheManager.set(
+      `refresh_token:${refreshToken}`,
+      payload.sub,
+      60 * 60 * 24 * 30,
+    );
     return { accessToken, refreshToken };
   }
 }

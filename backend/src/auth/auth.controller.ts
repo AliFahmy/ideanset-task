@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
@@ -53,6 +54,23 @@ export class AuthContorller {
         sub: user._id,
         email: user.email,
       });
+    } catch (error) {
+      throw error;
+    }
+  }
+  @Public()
+  @UseGuards(AuthGuard('jwt-refresh'))
+  @HttpCode(200)
+  @Post('revoke-refresh-token')
+  async revokeRefreshToken(@Body() refreshTokenDto: RefreshTokenDTO) {
+    try {
+      const { refreshToken } = refreshTokenDto;
+      if (!refreshToken)
+        throw new BadRequestException('No refresh token provided');
+      this.authService.revokeRefreshToken(refreshTokenDto.refreshToken);
+      return {
+        message: 'Refresh token revoked.',
+      };
     } catch (error) {
       throw error;
     }
